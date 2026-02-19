@@ -2,45 +2,28 @@
 
 ## Overview
 
-This project analyzes user data across Okta, Slack, and Google to identify:
+This project analyzes user activity across Okta, Slack, and Google to identify:
 
-- **Inactive Users** — No activity in any system for more than 180 days  
-- **Orphaned Users** — Exist in only one system  
-- **Conflicts** — Okta account disabled but still active in Slack or Google  
+- Inactive Users (no activity in 180+ days)
+- Orphaned Accounts (exist in only one system)
+- Conflicts (Okta disabled but active in Slack/Google)
 
-The app exposes a backend API for analysis and a simple dashboard UI to visualize the results.
-
----
-
-## Tech Stack
-
-- Next.js 16 (App Router)
-- TypeScript
-- Tailwind CSS
-- Fetch with retry logic
-- Server-side data normalization
+The reference date for inactivity calculations is **November 20, 2025**, as specified in the assignment.
 
 ---
 
-## How It Works
+## Architecture
 
-1. Fetches data from:
-   - `/api/okta/users`
-   - `/api/slack/activity`
-   - `/api/google/logins`
+- Next.js (App Router)
+- API Route: `/api/analyze`
+- Retry logic for 401 / 503 errors
+- Email normalization and dataset merging
+- Deployed to Vercel
 
-2. Normalizes users into a unified map keyed by email.
+---
 
-3. Applies classification rules:
-   - System presence count
-   - Conflict detection
-   - Inactivity threshold (180 days)
+## How To Run Locally
 
-4. Returns structured JSON:
-   ```json
-   {
-     "summary": { ... },
-     "inactive_users": [],
-     "orphans": [],
-     "conflicts": []
-   }
+```bash
+npm install
+npm run dev
